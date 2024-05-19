@@ -20,7 +20,7 @@ export async function getStaticPaths() {
 
 <Layout title={`Launch ${launch?.name}`}>
   <article class="flex flex-col items-center">
-    <img class="w-96" src={launch?.links.patch.large} alt="" />
+    <img class="w-96" src={launch?.links.patch.small} alt="" />
     <h1 class="text-4xl mt-4">{launch?.name}</h1>
     <p class="mt-4 p-2">{launch?.details}</p>
     <a
