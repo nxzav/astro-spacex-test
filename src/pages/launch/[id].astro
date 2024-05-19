@@ -1,0 +1,55 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getLaunches, getLaunchById } from '../../services/spacex';
+
+const { id } = Astro.params;
+
+let launch;
+if (id) {
+  launch = await getLaunchById({ id });
+}
+
+export async function getStaticPaths() {
+  const launches = await getLaunches();
+
+  return launches?.map((launch) => ({
+    params: { id: launch.id },
+  }));
+}
+---
+
+<Layout title={`Launch ${launch?.name}`}>
+  <article class="flex flex-col items-center">
+    <img class="w-96" src={launch?.links.patch.large} alt="" />
+    <h1 class="text-4xl mt-4">{launch?.name}</h1>
+    <p class="mt-4 p-2">{launch?.details}</p>
+    <a
+      class="text-2xl mt-4 flex flex-col items-center"
+      target="_blank"
+      href={launch?.links.webcast}
+    >
+      <svg
+        height="60px"
+        width="60px"
+        version="1.1"
+        id="Layer_1"
+        xmlns="http://www.w3.org/2000/svg"
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+        viewBox="0 0 461.001 461.001"
+        xml:space="preserve"
+        fill="#000000"
+        ><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g
+          id="SVGRepo_tracerCarrier"
+          stroke-linecap="round"
+          stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier">
+          <g>
+            <path
+              style="fill:#FFF;"
+              d="M365.257,67.393H95.744C42.866,67.393,0,110.259,0,163.137v134.728 c0,52.878,42.866,95.744,95.744,95.744h269.513c52.878,0,95.744-42.866,95.744-95.744V163.137 C461.001,110.259,418.135,67.393,365.257,67.393z M300.506,237.056l-126.06,60.123c-3.359,1.602-7.239-0.847-7.239-4.568V168.607 c0-3.774,3.982-6.22,7.348-4.514l126.06,63.881C304.363,229.873,304.298,235.248,300.506,237.056z"
+            ></path>
+          </g>
+        </g></svg
+      ><p>Go to webcast</p>
+    </a>
+  </article>
+</Layout>
